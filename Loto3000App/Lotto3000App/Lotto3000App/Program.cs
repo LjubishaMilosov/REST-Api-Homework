@@ -8,7 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 Lotto3000App.Helpers.DependencyInjectionHelper.InjectDbContext(builder.Services, builder.Configuration);
-
+Lotto3000App.Helpers.DependencyInjectionHelper.InjectRepositories(builder.Services);
 
 var app = builder.Build();
 
