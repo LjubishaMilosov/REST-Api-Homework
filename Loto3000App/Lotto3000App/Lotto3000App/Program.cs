@@ -7,6 +7,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+Lotto3000App.Helpers.DependencyInjectionHelper.InjectDbContext(builder.Services, builder.Configuration);
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

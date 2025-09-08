@@ -14,19 +14,19 @@ namespace Lotto3000App.DataAccess
         public DbSet<Lotto3000App.Domain.Models.Winner> Winners { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //base.OnModelCreating(modelBuilder);
-            //// Configure the DrawnNumbers property to be stored as a JSON string
-            //modelBuilder.Entity<Lotto3000App.Domain.Models.Draw>()
-            //    .Property(d => d.DrawnNumbers)
-            //    .HasConversion(
-            //        v => System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null),
-            //        v => System.Text.Json.JsonSerializer.Deserialize<List<int>>(v, (System.Text.Json.JsonSerializerOptions?)null) ?? new List<int>());
-            //// Configure the WinningNumbers property to be stored as a JSON string
-            //modelBuilder.Entity<Lotto3000App.Domain.Models.Winner>()
-            //    .Property(w => w.WinningNumbers)
-            //    .HasConversion(
-            //        v => System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null),
-            //        v => System.Text.Json.JsonSerializer.Deserialize<List<int>>(v, (System.Text.Json.JsonSerializerOptions?)null) ?? new List<int>());
+            base.OnModelCreating(modelBuilder);
+            // Configure the DrawnNumbers property to be stored as a JSON string
+            modelBuilder.Entity<Lotto3000App.Domain.Models.Draw>()
+                .Property(d => d.DrawnNumbers)
+                .HasConversion(
+                    v => System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null),
+                    v => System.Text.Json.JsonSerializer.Deserialize<List<int>>(v, (System.Text.Json.JsonSerializerOptions?)null) ?? new List<int>());
+            // Configure the WinningNumbers property to be stored as a JSON string
+            modelBuilder.Entity<Lotto3000App.Domain.Models.Winner>()
+                .Property(w => w.WinningNumbers)
+                .HasConversion(
+                    v => System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null),
+                    v => System.Text.Json.JsonSerializer.Deserialize<List<int>>(v, (System.Text.Json.JsonSerializerOptions?)null) ?? new List<int>());
         }
 
     }
