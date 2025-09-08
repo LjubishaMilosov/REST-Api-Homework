@@ -1,0 +1,12 @@
+﻿namespace Lotto3000App.Domain.Models
+{
+    public class Ticket : BaseEntity
+    {
+        public int UserId { get; set; }
+        public User User { get; set; }
+        public List<int> Numbers { get; set; } 
+        public DateTime SubmittedAt { get; set; }
+        public int SessionId { get; set; }
+        public Session Session { get; set; }
+    }
+}
