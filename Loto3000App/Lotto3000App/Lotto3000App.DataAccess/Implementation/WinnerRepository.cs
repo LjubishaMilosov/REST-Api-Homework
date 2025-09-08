@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lotto3000App.DataAccess.Implementation
 {
-    public class WinnerRepository : IRepository<Winner>
+    public class WinnerRepository : IWinnerRepository<Winner>
     {
         private readonly Lotto3000DbContext _context;
         public WinnerRepository(Lotto3000DbContext context)

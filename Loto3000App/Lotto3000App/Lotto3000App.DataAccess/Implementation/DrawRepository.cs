@@ -8,7 +8,7 @@ using Lotto3000App.Domain.Models;
 
 namespace Lotto3000App.DataAccess.Implementation
 {
-    public class DrawRepository : IRepository<Draw>
+    public class DrawRepository : IDrawRepository<Draw>
     {
         private readonly Lotto3000DbContext _context;
         public DrawRepository(Lotto3000DbContext context)

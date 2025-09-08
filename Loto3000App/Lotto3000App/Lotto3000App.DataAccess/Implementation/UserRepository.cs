@@ -3,7 +3,7 @@ using Lotto3000App.Domain.Models;
 
 namespace Lotto3000App.DataAccess.Implementation
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository : IUserRepository<User>
     {
         private readonly Lotto3000DbContext _context;
         public UserRepository(Lotto3000DbContext context)
