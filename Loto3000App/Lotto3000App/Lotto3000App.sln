@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lotto3000App", "Lotto3000App\Lotto3000App.csproj", "{310398BC-C320-4475-940A-1E741447019E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lotto3000App.Domain", "Lotto3000App.Domain\Lotto3000App.Domain.csproj", "{DBFB6BDA-A8A1-486E-8687-1B3B3DBA24DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{310398BC-C320-4475-940A-1E741447019E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{310398BC-C320-4475-940A-1E741447019E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{310398BC-C320-4475-940A-1E741447019E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{310398BC-C320-4475-940A-1E741447019E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBFB6BDA-A8A1-486E-8687-1B3B3DBA24DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBFB6BDA-A8A1-486E-8687-1B3B3DBA24DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBFB6BDA-A8A1-486E-8687-1B3B3DBA24DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBFB6BDA-A8A1-486E-8687-1B3B3DBA24DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FD23B331-9FA6-4E7E-A982-AC6EF29E5A87}
+	EndGlobalSection
+EndGlobal
