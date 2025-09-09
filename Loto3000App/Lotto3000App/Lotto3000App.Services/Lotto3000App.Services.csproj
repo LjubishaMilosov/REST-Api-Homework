@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lotto3000App.DataAccess\Lotto3000App.DataAccess.csproj" />
+    <ProjectReference Include="..\Lotto3000App.Domain\Lotto3000App.Domain.csproj" />
+    <ProjectReference Include="..\Lotto3000App.DTOs\Lotto3000App.DTOs.csproj" />
+  </ItemGroup>
+
+</Project>

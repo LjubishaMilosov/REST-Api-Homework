@@ -18,10 +18,17 @@ namespace Lotto3000App.Services.Implementation
 
         public void Add(WinnerDto winnerDto)
         {
+            if (winnerDto == null)
+                throw new ArgumentNullException(nameof(winnerDto), "Winner cannot be null");
+            if (winnerDto.WinningNumbers == null || winnerDto.WinningNumbers.Count < 3)
+                throw new ArgumentException("Winning numbers must be at least 3");
+            if (string.IsNullOrWhiteSpace(winnerDto.Prize))
+                throw new ArgumentException("Prize must be specified");
+
             var winner = new Winner
             {
                 UserId = winnerDto.UserId,
-                Prize = winnerDto.Prize ?? "",
+                Prize = winnerDto.Prize,
                 WinningNumbers = winnerDto.WinningNumbers,
                 DrawId = winnerDto.DrawId
             };
@@ -73,8 +80,8 @@ namespace Lotto3000App.Services.Implementation
         public void Update(WinnerDto winnerDto)
         {
             var winner = _winnerRepository.GetById(winnerDto.Id);
-            if (winner == null) return;
-            winner.Prize = winnerDto.Prize ?? winner.Prize;
+            if (winner == null) throw new ArgumentException("Winner not found");
+            winner.Prize = winnerDto.Prize;
             winner.WinningNumbers = winnerDto.WinningNumbers;
             winner.DrawId = winnerDto.DrawId;
             _winnerRepository.Update(winner);

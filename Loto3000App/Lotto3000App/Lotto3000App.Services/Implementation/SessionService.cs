@@ -1,4 +1,5 @@
 ﻿using Lotto3000App.DataAccess.Implementation;
+using Lotto3000App.DataAccess.Interfaces;
 using Lotto3000App.Domain.Models;
 using Lotto3000App.DTOs;
 using Lotto3000App.Services.Interfaces;
@@ -7,14 +8,19 @@ namespace Lotto3000App.Services.Implementation
 {
     public class SessionService : ISessionService<Session>
     {
-        private readonly SessionRepository _sessionRepository;
-        public SessionService(SessionRepository sessionRepository)
+        private readonly ISessionRepository<Session> _sessionRepository;
+        public SessionService(ISessionRepository<Session> sessionRepository)
         {
             _sessionRepository = sessionRepository;
         }
 
         public void Add(SessionDto sessionDto)
         {
+            if (sessionDto == null)
+                throw new ArgumentNullException(nameof(sessionDto), "Session cannot be null");
+            if (sessionDto.StartTime == default)
+                throw new ArgumentException("Session start time must be specified");
+
             var session = new Session
             {
                 StartTime = sessionDto.StartTime,
@@ -63,7 +69,7 @@ namespace Lotto3000App.Services.Implementation
         public void Update(SessionDto sessionDto)
         {
             var session = _sessionRepository.GetById(sessionDto.Id);
-            if (session == null) return;
+            if (session == null) throw new ArgumentException("Session not found");
             session.StartTime = sessionDto.StartTime;
             session.EndTime = sessionDto.EndTime;
             _sessionRepository.Update(session);

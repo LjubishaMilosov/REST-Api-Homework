@@ -14,15 +14,20 @@ namespace Lotto3000App.Services.Implementation
             _userRepository = userRepository;
         }
 
-        public void Add(UserDto entity)
+        public void Add(UserDto userDto)
         {
+            if (userDto == null)
+                throw new ArgumentNullException(nameof(userDto), "User cannot be null");
+            if (string.IsNullOrWhiteSpace(userDto.Username))
+                throw new ArgumentException("Username cannot be empty", nameof(userDto.Username));
+
             var user = new User
             {
-                Username = entity.Username,
-                Role = Enum.TryParse<RoleEnum>(entity.Role, out var role) ? role : RoleEnum.Player
+                Username = userDto.Username,
+                Role = Enum.TryParse<RoleEnum>(userDto.Role, out var role) ? role : RoleEnum.Player
             };
             _userRepository.Add(user);
-            entity.Id = user.Id;
+            userDto.Id = user.Id;
         }
 
         public void Delete(int id)
@@ -49,7 +54,11 @@ namespace Lotto3000App.Services.Implementation
         public UserDto GetById(int id)
         {
             var user = _userRepository.GetById(id);
-            if (user == null) return null;
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+            ;
             return new UserDto
             {
                 Id = user.Id,
@@ -58,15 +67,13 @@ namespace Lotto3000App.Services.Implementation
             };
         }
 
-        public void Update(UserDto entity)
+        public void Update(UserDto userDto)
         {
-            var user = new User
-            {
-                Username = entity.Username,
-                Role = Enum.TryParse<RoleEnum>(entity.Role, out var role) ? role : RoleEnum.Player
-            };
-            _userRepository.Add(user);
-            entity.Id = user.Id;
+            var user = _userRepository.GetById(userDto.Id);
+            if (user == null) throw new ArgumentException("User not found");
+            user.Username = userDto.Username;
+            user.Role = Enum.TryParse<RoleEnum>(userDto.Role, out var role) ? role : user.Role;
+            _userRepository.Update(user);
         }
     }
 }
