@@ -9,6 +9,7 @@ builder.Services.AddSwaggerGen();
 
 Lotto3000App.Helpers.DependencyInjectionHelper.InjectDbContext(builder.Services, builder.Configuration);
 Lotto3000App.Helpers.DependencyInjectionHelper.InjectRepositories(builder.Services);
+Lotto3000App.Helpers.DependencyInjectionHelper.InjectServices(builder.Services); 
 
 var app = builder.Build();
 

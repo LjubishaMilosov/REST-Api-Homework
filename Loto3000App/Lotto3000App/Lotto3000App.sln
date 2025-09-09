@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lotto3000App.DataAccess", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lotto3000App.Helpers", "Lotto3000App.Helpers\Lotto3000App.Helpers.csproj", "{996B673F-BF45-410A-A180-A404F5BBD23B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lotto3000App.Services", "Lotto3000App.Services\Lotto3000App.Services.csproj", "{B14BB1EF-24B0-4FF0-B269-5E311883DB14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lotto3000App.DTOs", "Lotto3000App.DTOs\Lotto3000App.DTOs.csproj", "{58618003-D0A5-4B9D-ADA3-F0057D9AEBB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{996B673F-BF45-410A-A180-A404F5BBD23B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{996B673F-BF45-410A-A180-A404F5BBD23B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{996B673F-BF45-410A-A180-A404F5BBD23B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B14BB1EF-24B0-4FF0-B269-5E311883DB14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B14BB1EF-24B0-4FF0-B269-5E311883DB14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B14BB1EF-24B0-4FF0-B269-5E311883DB14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B14BB1EF-24B0-4FF0-B269-5E311883DB14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58618003-D0A5-4B9D-ADA3-F0057D9AEBB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58618003-D0A5-4B9D-ADA3-F0057D9AEBB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58618003-D0A5-4B9D-ADA3-F0057D9AEBB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58618003-D0A5-4B9D-ADA3-F0057D9AEBB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
