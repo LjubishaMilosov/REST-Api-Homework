@@ -1,7 +1,12 @@
-﻿namespace MoviesApp.Domaim.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MoviesApp.Domaim.Models
 {
     public abstract class BaseEntity
     {
-        public int Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; } 
     }
 }
