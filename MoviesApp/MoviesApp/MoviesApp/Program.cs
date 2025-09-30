@@ -11,6 +11,7 @@ builder.Services.AddSwaggerGen();
 
 // Custom Dependency Injection
 DependencyInjectionHelper.InjectDbContext(builder.Services);
+DependencyInjectionHelper.InjectRepositories(builder.Services);
 
 var app = builder.Build();
 
