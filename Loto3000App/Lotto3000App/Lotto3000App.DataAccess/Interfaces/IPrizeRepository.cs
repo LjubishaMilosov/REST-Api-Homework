@@ -2,8 +2,8 @@
 
 namespace Lotto3000App.DataAccess.Interfaces
 {
-    public interface ISessionRepository : IRepository<Session>
+    public interface IPrizeRepository : IRepository<Prize>
     {
-        Session GetActiveSession();
+        Prize GetPrizeByTier(int tier);
     }
 }

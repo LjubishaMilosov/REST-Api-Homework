@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lotto3000App.DataAccess.Implementation
 {
-    public class WinnerRepository : IWinnerRepository<Winner>
+    public class WinnerRepository : IWinnerRepository
     {
         private readonly Lotto3000DbContext _context;
         public WinnerRepository(Lotto3000DbContext context)
@@ -36,6 +36,11 @@ namespace Lotto3000App.DataAccess.Implementation
                 throw new Exception($"draw with {id} not found.");
             }
             return winner;
+        }
+
+        public List<Winner> GetWinnersByDrawId(int drawId)
+        {
+            return _context.Winners.Where(w => w.DrawId == drawId).ToList();
         }
 
         public void Update(Winner entity)

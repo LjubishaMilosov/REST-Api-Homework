@@ -8,7 +8,7 @@ using Lotto3000App.Domain.Models;
 
 namespace Lotto3000App.DataAccess.Implementation
 {
-    public class DrawRepository : IDrawRepository<Draw>
+    public class DrawRepository : IDrawRepository
     {
         private readonly Lotto3000DbContext _context;
         public DrawRepository(Lotto3000DbContext context)
@@ -38,6 +38,16 @@ namespace Lotto3000App.DataAccess.Implementation
             if (draw == null)
             {
                 throw new Exception($"draw with {id} not found.");
+            }
+            return draw;
+        }
+
+        public Draw GetDrawBySessionId(int sessionId)
+        {
+            var draw = _context.Draws.FirstOrDefault(d => d.SessionId == sessionId);
+            if (draw == null)
+            {
+                throw new Exception($"draw with session id {sessionId} not found.");
             }
             return draw;
         }

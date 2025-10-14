@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using MoviesApp.DataAccess;
 using MoviesApp.DataAccess.Implementation;
 using MoviesApp.DataAccess.Interfaces;
+using MoviesApp.Services.Implementation;
+using MoviesApp.Services.Interfaces;
 
 namespace MoviesApp.Helpers
 {
@@ -16,8 +18,14 @@ namespace MoviesApp.Helpers
 
         public static void InjectRepositories(IServiceCollection services)
         {
-            services.AddScoped<IMovieRepository, MovieRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddTransient<IMovieRepository, MovieRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+        }
+
+        public static void InjectServices(IServiceCollection services)
+        {
+            services.AddTransient<IMovieService, MovieService>();
+            
         }
     }
 }

@@ -3,7 +3,7 @@ using Lotto3000App.Domain.Models;
 
 namespace Lotto3000App.DataAccess.Implementation
 {
-    public class UserRepository : IUserRepository<User>
+    public class UserRepository : IUserRepository
     {
         private readonly Lotto3000DbContext _context;
         public UserRepository(Lotto3000DbContext context)
@@ -33,6 +33,16 @@ namespace Lotto3000App.DataAccess.Implementation
               if (user == null)
               {
                 throw new Exception($"User with id {id} not found.");
+            }
+            return user;
+        }
+
+        public User GetByUsername(string username)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Username == username);
+            if (user == null)
+            {
+                throw new Exception($"User with username {username} not found.");
             }
             return user;
         }

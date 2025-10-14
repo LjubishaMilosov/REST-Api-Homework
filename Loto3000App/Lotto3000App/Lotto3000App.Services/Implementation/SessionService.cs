@@ -6,12 +6,26 @@ using Lotto3000App.Services.Interfaces;
 
 namespace Lotto3000App.Services.Implementation
 {
-    public class SessionService : ISessionService<Session>
+    public class SessionService : ISessionService
     {
-        private readonly ISessionRepository<Session> _sessionRepository;
-        public SessionService(ISessionRepository<Session> sessionRepository)
+        private readonly ISessionRepository _sessionRepository;
+        public SessionService(ISessionRepository sessionRepository)
         {
             _sessionRepository = sessionRepository;
+        }
+
+        public List<SessionDto> GetAll()
+        {
+            return _sessionRepository.GetAll()
+               .Select(s => new SessionDto
+               {
+                   Id = s.Id,
+                   StartTime = s.StartTime,
+                   EndTime = s.EndTime,
+                   TicketIds = s.Tickets?.Select(t => t.Id).ToList(),
+                   DrawId = s.Draws?.LastOrDefault()?.Id
+               })
+               .ToList();
         }
 
         public void Add(SessionDto sessionDto)
@@ -24,7 +38,8 @@ namespace Lotto3000App.Services.Implementation
             var session = new Session
             {
                 StartTime = sessionDto.StartTime,
-                EndTime = sessionDto.EndTime
+                EndTime = sessionDto.EndTime,
+                IsActive = true
                 // Tickets and Draw should be set via other logic if needed
             };
             _sessionRepository.Add(session);
@@ -38,31 +53,37 @@ namespace Lotto3000App.Services.Implementation
                 _sessionRepository.Delete(session);
         }
 
-        public List<SessionDto> GetAll()
+        public SessionDto GetActiveSession()
         {
-            return _sessionRepository.GetAll()
-               .Select(s => new SessionDto
-               {
-                   Id = s.Id,
-                   StartTime = s.StartTime,
-                   EndTime = s.EndTime,
-                   TicketIds = s.Tickets?.Select(t => t.Id).ToList(),
-                   DrawId = s.Draw?.Id
-               })
-               .ToList();
-        }
-
-        public SessionDto GetById(int id)
-        {
-            var session = _sessionRepository.GetById(id);
-            if (session == null) return null;
+            var session = _sessionRepository.GetActiveSession();
+            if (session == null)
+            {
+                throw new Exception("No active session found.");
+            };
             return new SessionDto
             {
                 Id = session.Id,
                 StartTime = session.StartTime,
                 EndTime = session.EndTime,
                 TicketIds = session.Tickets?.Select(t => t.Id).ToList(),
-                DrawId = session.Draw?.Id
+                DrawId = session.Draws?.LastOrDefault()?.Id
+            };
+        }
+
+        public SessionDto GetById(int id)
+        {
+            var session = _sessionRepository.GetById(id);
+            if (session == null)
+            {
+                throw new Exception($"Session with id {id} not found.");
+            } ;
+            return new SessionDto
+            {
+                Id = session.Id,
+                StartTime = session.StartTime,
+                EndTime = session.EndTime,
+                TicketIds = session.Tickets?.Select(t => t.Id).ToList(),
+                DrawId = session.Draws?.LastOrDefault()?.Id
             };
         }
 

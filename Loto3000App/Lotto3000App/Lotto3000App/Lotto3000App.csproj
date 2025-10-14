@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lotto3000App.Helpers\Lotto3000App.Helpers.csproj" />
+    <ProjectReference Include="..\Lotto3000App.Services\Lotto3000App.Services.csproj" />
   </ItemGroup>
 
 </Project>

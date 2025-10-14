@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MoviesApp.DataAccess\MoviesApp.DataAccess.csproj" />
+    <ProjectReference Include="..\MoviesApp.Services\MoviesApp.Services.csproj" />
   </ItemGroup>
 
 </Project>

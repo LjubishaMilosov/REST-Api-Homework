@@ -3,12 +3,8 @@ using Lotto3000App.Domain.Models;
 
 namespace Lotto3000App.DataAccess.Interfaces
 {
-    public interface IWinnerRepository<Winner> where Winner : BaseEntity
+    public interface IWinnerRepository : IRepository<Winner>
     {
-        List<Winner> GetAll();
-        Winner GetById(int id);
-        void Add(Winner entity);
-        void Update(Winner entity);
-        void Delete(Winner entity);
+        List<Winner> GetWinnersByDrawId(int drawId);
     }
 }

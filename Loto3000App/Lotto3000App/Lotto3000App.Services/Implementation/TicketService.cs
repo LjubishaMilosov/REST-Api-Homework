@@ -1,18 +1,16 @@
-﻿
-using System.Net.Sockets;
-using Lotto3000App.DataAccess.Implementation;
-using Lotto3000App.DataAccess.Interfaces;
+﻿using Lotto3000App.DataAccess.Interfaces;
 using Lotto3000App.Domain.Models;
 using Lotto3000App.DTOs;
 using Lotto3000App.Services.Interfaces;
 
+
 namespace Lotto3000App.Services.Implementation
 {
-    public class TicketService : ITicketService<Ticket>
+    public class TicketService : ITicketService
     {
-        private readonly ITicketRepository<Ticket> _ticketRepository;
-        private readonly IUserRepository<User> _userRepository;
-        public TicketService(ITicketRepository<Ticket> ticketRepository, IUserRepository<User> userRepository)
+        private readonly ITicketRepository _ticketRepository;
+        private readonly IUserRepository _userRepository;
+        public TicketService(ITicketRepository ticketRepository, IUserRepository userRepository)
         {
             _ticketRepository = ticketRepository;
             _userRepository = userRepository;
@@ -36,7 +34,7 @@ namespace Lotto3000App.Services.Implementation
             {
                 UserId = ticketDto.UserId,
                 Numbers = ticketDto.Numbers,
-                SubmittedAt = DateTime.UtcNow,
+                SubmittedAt = ticketDto.SubmittedAt,
                 SessionId = ticketDto.SessionId
             };
             _ticketRepository.Add(ticket);
@@ -71,7 +69,7 @@ namespace Lotto3000App.Services.Implementation
             {
                 throw new Exception($"Ticket with ID {id} not found.");
             }
-            ;
+            
             return new TicketDto
             {
                 Id = ticket.Id,
@@ -80,6 +78,24 @@ namespace Lotto3000App.Services.Implementation
                 SubmittedAt = ticket.SubmittedAt,
                 SessionId = ticket.SessionId
             };
+        }
+
+        public List<TicketDto> GetByUserId(int userId)
+        {
+            var user = _userRepository.GetById(userId);
+            if (user == null)
+            {
+                throw new ArgumentException("User not found");
+            } //no need for all this cause if there is no user, an empty list will be returned
+            return _ticketRepository.GetByUserId(userId)
+                .Select(t => new TicketDto
+                {
+                    Id = t.Id,
+                    UserId = t.UserId,
+                    Numbers = t.Numbers,
+                    SubmittedAt = t.SubmittedAt,
+                    SessionId = t.SessionId
+                }).ToList();
         }
 
         public void Update(TicketDto ticketDto)

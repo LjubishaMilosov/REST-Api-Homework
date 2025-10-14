@@ -3,7 +3,7 @@ using Lotto3000App.Domain.Models;
 
 namespace Lotto3000App.DataAccess.Implementation
 {
-    public class SessionRepository : ISessionRepository<Session>
+    public class SessionRepository : ISessionRepository
     {
         private readonly Lotto3000DbContext _context;
         public SessionRepository(Lotto3000DbContext context)
@@ -20,6 +20,11 @@ namespace Lotto3000App.DataAccess.Implementation
         {
             _context.Sessions.Remove(entity);
             _context.SaveChanges();
+        }
+
+        public Session GetActiveSession()
+        {
+            throw new NotImplementedException();
         }
 
         public List<Session> GetAll()

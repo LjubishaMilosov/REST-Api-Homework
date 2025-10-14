@@ -16,6 +16,7 @@ namespace Lotto3000App.DataAccess
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Draw> Draws { get; set; }
         public DbSet<Winner> Winners { get; set; }
+        public DbSet<Prize> Prizes { get; set; }
         protected override void OnModelCreating(ModelBuilder model)
         {
             var jsonListIntConverter =
@@ -23,17 +24,15 @@ namespace Lotto3000App.DataAccess
                     v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
                     v => JsonSerializer.Deserialize<List<int>>(v, (JsonSerializerOptions?)null) ?? new List<int>());
 
-            // User
             model.Entity<User>(e =>
             {
                 e.HasKey(x => x.Id);
                 e.Property(x => x.Username).IsRequired().HasMaxLength(64);
-                e.Property(x => x.FirstName).IsRequired().HasMaxLength(64);
-                e.Property(x => x.LastName).IsRequired().HasMaxLength(64);
+                e.Property(x => x.FirstName).HasMaxLength(64);
+                e.Property(x => x.LastName).HasMaxLength(64);
                 e.HasIndex(x => x.Username).IsUnique();
             });
 
-            // Session
             model.Entity<Session>(e =>
             {
                 e.HasKey(x => x.Id);
@@ -43,26 +42,25 @@ namespace Lotto3000App.DataAccess
                 e.HasMany(x => x.Draws).WithOne(d => d.Session).HasForeignKey(d => d.SessionId);
             });
 
-            // Ticket
             model.Entity<Ticket>(e =>
             {
                 e.HasKey(x => x.Id);
+                e.Property(x => x.Numbers).HasConversion(jsonListIntConverter).HasColumnType("nvarchar(max)");
                 e.Property(x => x.SubmittedAt).HasDefaultValueSql("SYSUTCDATETIME()");
-                e.Property(x => x.Numbers).HasConversion(jsonListIntConverter);
                 e.HasOne(x => x.User).WithMany(u => u.Tickets).HasForeignKey(x => x.UserId);
+                e.HasIndex(x => x.SessionId);
+                e.HasIndex(x => x.UserId);
             });
 
-            // Draw
             model.Entity<Draw>(e =>
             {
                 e.HasKey(x => x.Id);
                 e.Property(x => x.StartedAt).HasDefaultValueSql("SYSUTCDATETIME()");
-                e.Property(x => x.DrawnNumbers).HasConversion(jsonListIntConverter);
+                e.Property(x => x.DrawnNumbers).HasConversion(jsonListIntConverter).HasColumnType("nvarchar(max)");
                 e.HasOne(x => x.Session).WithMany(s => s.Draws).HasForeignKey(x => x.SessionId);
                 e.HasOne(x => x.InitiatedBy).WithMany().HasForeignKey(x => x.InitiatedByUserId).OnDelete(DeleteBehavior.Restrict);
             });
 
-            // Prize
             model.Entity<Prize>(e =>
             {
                 e.HasKey(x => x.Id);
@@ -78,12 +76,11 @@ namespace Lotto3000App.DataAccess
                 );
             });
 
-            // Winner
             model.Entity<Winner>(e =>
             {
                 e.HasKey(x => x.Id);
                 e.Property(x => x.CreatedAt).HasDefaultValueSql("SYSUTCDATETIME()");
-                e.Property(x => x.WinningNumbers).HasConversion(jsonListIntConverter);
+                e.Property(x => x.WinningNumbers).HasConversion(jsonListIntConverter).HasColumnType("nvarchar(max)");
                 e.Property(x => x.FirstName).IsRequired().HasMaxLength(64);
                 e.Property(x => x.LastName).IsRequired().HasMaxLength(64);
 
@@ -94,6 +91,7 @@ namespace Lotto3000App.DataAccess
 
                 e.HasIndex(x => new { x.DrawId, x.TicketId, x.UserId, x.PrizeId }).IsUnique();
             });
+           
         }
 
     }
