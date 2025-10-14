@@ -1,4 +1,4 @@
-﻿
+﻿using Microsoft.EntityFrameworkCore;
 using MoviesApp.DataAccess.Interfaces;
 using MoviesApp.Domaim.Models;
 
@@ -6,34 +6,46 @@ namespace MoviesApp.DataAccess.Implementation
 {
     public class UserRepository : IUserRepository
     {
+        private readonly MoviesDbContext _dbContext;
+        public UserRepository(MoviesDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
         public void Add(User entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Users.Add(entity);
+            _dbContext.SaveChanges();
         }
 
         public void Delete(User entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Users.Remove(entity);
+            _dbContext.SaveChanges();
         }
 
         public List<User> GetAll()
         {
-            throw new NotImplementedException();
+            return _dbContext.Users.Include(x => x.MovieList).ToList();
         }
 
         public User GetById(int id)
-        {
-            throw new NotImplementedException();
+        {   
+            return _dbContext.Users
+                .Include(x => x.MovieList)
+                .FirstOrDefault(u => u.Id == id);
         }
 
         public User GetUserByUsername(string username)
         {
-            throw new NotImplementedException();
+            return _dbContext.Users
+                .Include(x => x.MovieList)
+                .FirstOrDefault(u => u.Username.ToLower() == username.ToLower());
         }
 
         public void Update(User entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Users.Update(entity);
+            _dbContext.SaveChanges();
         }
     }
 }
