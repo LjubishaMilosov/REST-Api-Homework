@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.IdentityModel.Tokens;
 using MoviesApp.DataAccess.Interfaces;
+using MoviesApp.Domaim.Enums;
 using MoviesApp.Domaim.Models;
 using MoviesApp.Dtos;
 using MoviesApp.Services.Interfaces;
@@ -43,12 +44,15 @@ namespace MoviesApp.Services.Implementation
             JwtSecurityTokenHandler jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
             var secretKey = Encoding.ASCII.GetBytes("Our secret secret secret secret secret secret secret secret key");
 
+            var role = userDb.Username == "petko" ? Roles.Admin : Roles.StandardUser;
+
             SecurityTokenDescriptor securityTokenDescriptor = new SecurityTokenDescriptor
             {
                 Expires = DateTime.UtcNow.AddHours(2),
                 Subject = new System.Security.Claims.ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.NameIdentifier, loginUserDto.Username),
+                    new Claim(ClaimTypes.Role, role),
                     new Claim("id", userDb.Id.ToString()),
                     new Claim("userFullName", $"{userDb.FirstName} {userDb.LastName}")
 
