@@ -53,7 +53,7 @@ namespace MoviesApp.Services.Implementation
             var movieDb = _movieRepository.GetById(id);
             if (movieDb == null)
             {
-                throw new NullReferenceException($"Movie with id {id} does not exist");
+                throw new NullReferenceException($"Movie with id {id} was not found");
             }
             _movieRepository.Delete(movieDb);
 

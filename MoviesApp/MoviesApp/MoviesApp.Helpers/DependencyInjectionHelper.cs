@@ -25,7 +25,8 @@ namespace MoviesApp.Helpers
         public static void InjectServices(IServiceCollection services)
         {
             services.AddTransient<IMovieService, MovieService>();
-            
+            services.AddTransient<IUserService, UserService>();
+
         }
     }
 }
