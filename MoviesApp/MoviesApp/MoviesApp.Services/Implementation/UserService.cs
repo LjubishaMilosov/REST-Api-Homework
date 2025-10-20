@@ -1,4 +1,6 @@
 ﻿using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -20,7 +22,44 @@ namespace MoviesApp.Services.Implementation
 
         public string Login(LoginUserDto loginUserDto)
         {
-            throw new NotImplementedException();
+            if(loginUserDto == null)
+            {
+                throw new NullReferenceException("Model cannot be null");
+            }
+            if(string.IsNullOrEmpty(loginUserDto.Username) || string.IsNullOrEmpty(loginUserDto.Password))
+            {
+                throw new NullReferenceException("Username and password are required");
+            }
+
+            var hashedPassword = Generatehash(loginUserDto.Password);
+            var userDb = _userRepository.GetAll().FirstOrDefault(u => u.Username == loginUserDto.Username && u.Password == hashedPassword);
+            if(userDb == null)
+            {
+                throw new DataException("Wrong username or password");
+            }
+
+            // generate JWT token that we will use for authntication/authorization
+
+            JwtSecurityTokenHandler jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+            var secretKey = Encoding.ASCII.GetBytes("Our secret secret secret secret secret secret secret secret key");
+
+            SecurityTokenDescriptor securityTokenDescriptor = new SecurityTokenDescriptor
+            {
+                Expires = DateTime.UtcNow.AddHours(2),
+                Subject = new System.Security.Claims.ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, loginUserDto.Username),
+                    new Claim("id", userDb.Id.ToString()),
+                    new Claim("userFullName", $"{userDb.FirstName} {userDb.LastName}")
+
+                }),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            SecurityToken token = jwtSecurityTokenHandler.CreateToken(securityTokenDescriptor);
+            string tokenString = jwtSecurityTokenHandler.WriteToken(token);
+
+            return tokenString;
         }
 
         public void RegisterUser(RegisterUserDto registerUserDto)
